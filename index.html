@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <div id="app"></div>
+</body>
+  <script>
+    function parseResp(json) {
+      if (!json) {
+        return;
+      }
+
+      var artist = json.artist;
+      var track = json.track;
+
+      console.log(artist, track);
+      document.getElementById('app').innerHTML = 'Now playing:<br />Track: ' + track + '<br />Artist: ' + artist;
+    }
+
+    function getSong() {
+      var request = new Request('http://localhost:8080/current');
+      fetch(request).then(function(resp) {
+        return resp.json();
+      }).then(function(json) {
+        return parseResp(json);
+      });
+    }
+
+    setInterval(getSong, 1000);
+  </script>
+</html>
